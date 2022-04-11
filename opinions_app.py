@@ -37,12 +37,21 @@ def index_view():
     offset_value = randrange(quantity)
     # Получается случайный объект
     opinion = Opinion.query.offset(offset_value).first()
-    return render_template('index.html', opinion=opinion)
+    return render_template('opinion.html', opinion=opinion)
 
 
 @app.route('/add')
 def add_opinion_view():
-    return 'Страница в разработке!'
+    return render_template('add_opinion.html')
+
+
+@app.route('/opinions/<int:id>')
+# Параметром указывается имя переменной
+def opinion_view(id):
+    # Теперь можно запрашивать мнение по id
+    opinion = Opinion.query.get_or_404(id)
+    # И передавать его в шаблон
+    return render_template('opinion.html', opinion=opinion)
 
 
 if __name__ == '__main__':
